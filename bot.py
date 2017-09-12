@@ -3,7 +3,7 @@ import time
 from slackclient import SlackClient
 
 def get_bot_id():
-    BOT_NAME = 'tell'
+    BOT_NAME = 'trotsky'
     slack_client = SlackClient(os.environ.get('SLACK_TOKEN'))
     api_call = slack_client.api_call("users.list")
     if api_call.get('ok'):
@@ -23,7 +23,8 @@ AT_BOT = "<@" + BOT_ID + ">"
 slack_client = SlackClient(TOKEN)
 
 def handle_command(command, channel):
-    response = "Something something"
+
+    response = command or "Generic response" 
     # if input from whisers, no response
     # if you say "will", then "picture"
     slack_client.api_call("chat.postMessage", channel=channel, text=response, as_user=True)
@@ -38,6 +39,8 @@ def parse_slack_output(slack_rtm_output):
                 # return text after the @ mention, whitespace removed
                 return output['text'].split(AT_BOT)[1].strip().lower(), \
                        output['channel']
+            if output and 'text' in output and '@will' in output['text']:
+                return '@whiskers You were mentioned', output['channel'] 
     return None, None
 
 
