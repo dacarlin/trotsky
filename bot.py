@@ -37,10 +37,14 @@ def detect_will(token):
 
 WILL_USER = detect_will(TOKEN) 
 
-def handle_command(message_text, channel):
+def handle_command(message_text, channel, user):
     '''
     Given a message (text) and a channel name, do something
     '''
+    
+    if user == WILL_USER['id']:
+        return  
+
     WILL_NAME = WILL_USER['name'] 
     if '@will' in message_text:
         response = message_text.replace('@will', '@{}'.format(WILL_NAME)).strip()
@@ -55,21 +59,22 @@ def parse_slack_output(slack_rtm_output):
         for output in output_list:
             if output and 'text' in output:
                 print(output.keys()) 
+                print(type(output['user'])) 
                 # The bot will be listening to all messages 
                 #print('Message text: {}'.format(output['text'])) 
-                return output['text'], output['channel'] 
+                return output['text'], output['channel'], output['user'] 
 
     # If there is no output: 
-    return None, None
+    return None, None, None 
 
 if __name__ == '__main__':
     READ_WEBSOCKET_DELAY = 1 # 1 second delay between reading from firehose
     if slack_client.rtm_connect():
         print('Bot connected and running')
         while True:
-            command, channel = parse_slack_output(slack_client.rtm_read())
+            command, channel, user = parse_slack_output(slack_client.rtm_read())
             if command and channel:
-                handle_command(command, channel)
+                handle_command(command, channel, user)
             time.sleep(READ_WEBSOCKET_DELAY)
     else:
         print('Connection failed. Invalid token or bot ID?')
