@@ -59,7 +59,7 @@ def handle_command(message_text, channel, user):
     else:
         # do nothing 
         pass 
-        
+
 def parse_slack_output(slack_rtm_output):
     output_list = slack_rtm_output
     if output_list and len(output_list) > 0:
@@ -75,13 +75,13 @@ def parse_slack_output(slack_rtm_output):
     return None, None, None 
 
 if __name__ == '__main__':
-    READ_WEBSOCKET_DELAY = 1 # 1 second delay between reading from firehose
+    READ_WEBSOCKET_DELAY = 2 
     if slack_client.rtm_connect():
         print('Bot connected and running')
         while True:
-            command, channel, user = parse_slack_output(slack_client.rtm_read())
-            if command and channel:
-                handle_command(command, channel, user)
+            text, channel, user = parse_slack_output(slack_client.rtm_read())
+            if text and channel and user:
+                handle_command(text, channel, user)
             time.sleep(READ_WEBSOCKET_DELAY)
     else:
         print('Connection failed. Invalid token or bot ID?')
