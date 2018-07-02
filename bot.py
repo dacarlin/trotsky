@@ -50,8 +50,8 @@ def handle_command(message_text, channel, user):
         response = message_text.replace('@will', '@{}'.format(WILL_NAME)).strip()
         slack_client.api_call('chat.postMessage', channel=channel, text=response, as_user=True) 
 
-    #response = message_text.lower() # for now, just say this exact same thing back to us 
-    #slack_client.api_call('chat.postMessage', channel=channel, text=response, as_user=True)
+    response = message_text.lower() # for now, just say this exact same thing back to us 
+    slack_client.api_call('chat.postMessage', channel=channel, text=response, as_user=True)
 
 def parse_slack_output(slack_rtm_output):
     output_list = slack_rtm_output
