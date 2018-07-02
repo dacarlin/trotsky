@@ -58,6 +58,7 @@ def handle_command(message_text, channel, user):
         exit()
     else:
         # do nothing 
+        pass 
         
 def parse_slack_output(slack_rtm_output):
     output_list = slack_rtm_output
