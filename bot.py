@@ -43,6 +43,9 @@ def handle_command(message_text, channel, user):
     '''
     
     if user == WILL_USER['id']:
+        return
+
+    if user == BOT_ID:
         return  
 
     WILL_NAME = WILL_USER['name'] 
