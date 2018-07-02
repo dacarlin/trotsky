@@ -52,10 +52,13 @@ def handle_command(message_text, channel, user):
     if '@will' in message_text:
         response = message_text.replace('@will', '@{}'.format(WILL_NAME)).strip()
         slack_client.api_call('chat.postMessage', channel=channel, text=response, as_user=True) 
+    elif 'bye' in message_text.lower():
+        response = 'See ya! Wouldn\'t wanna be ya'
+        slack_client.api_call('chat.postMessage', channel=channel, text=response, as_user=True) 
+        exit()
     else:
-        response = message_text.lower() # for now, just say this exact same thing back to us 
-        slack_client.api_call('chat.postMessage', channel=channel, text=response, as_user=True)
-
+        # do nothing 
+        
 def parse_slack_output(slack_rtm_output):
     output_list = slack_rtm_output
     if output_list and len(output_list) > 0:
