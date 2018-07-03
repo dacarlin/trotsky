@@ -68,7 +68,7 @@ def parse_slack_output(slack_rtm_output):
                 print(output.keys()) 
                 print(type(output['user'])) 
                 # The bot will be listening to all messages 
-                #print('Message text: {}'.format(output['text'])) 
+                print('Message text: {}'.format(output['text'])) 
                 return output['text'], output['channel'], output['user'] 
 
     # If there is no output: 
